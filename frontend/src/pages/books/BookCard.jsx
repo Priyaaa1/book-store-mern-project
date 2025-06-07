@@ -17,8 +17,15 @@ const BookCard = ({book}) => {
             <div className="sm:h-72 sm:flex-shrink-0 border rounded-md">
             <Link to={`/books/${book._id}`}>
                 <img
-                src={`${getImgUrl(book.coverImage)}`}
-                alt=""
+                // src={`${getImgUrl(book.coverImage)}`}
+                // src={book.coverImage}
+                src={
+                    book.coverImage.startsWith("http")
+                    ? book.coverImage 
+                    : getImgUrl(book.coverImage) 
+                }
+                alt={book.title}
+                onError={(e) => e.target.src = 'frontend/src/pages/books/default-book.png'} // optional fallback
                 className="w-full bg-cover p-2 rounded-md cursor-pointer hover:scale-105 transition-all duration-200"/>
             </Link>
             </div>

@@ -2,6 +2,9 @@ const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET_KEY
 
 const verifyAdminToken = (req, res, next) => {
+    // const header = req.headers['authorization'];
+    // console.log("🔐 Auth Header:", header);
+
     const token = req.headers['authorization']?.split(' ')[1];
     console.log(token)
 
@@ -10,8 +13,10 @@ const verifyAdminToken = (req, res, next) => {
     }
     jwt.verify(token, JWT_SECRET, (err, user) => {
         if(err){
+            console.error("Token verification failed:", err.message);
             return res.status(403).json({message: 'Invalid credentials'})
         }
+        // console.log("Token verified! User:", user);
         req.user = user;
         next();
     })
